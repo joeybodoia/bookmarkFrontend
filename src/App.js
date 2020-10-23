@@ -3,6 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import {Route, Link, Switch} from "react-router-dom"
 import Display from "./Display"
+import Form from "./Form"
 
 function App() {
   // // variable to hold url
@@ -32,28 +33,38 @@ function App() {
   })
 
   // handleCreate function
-  // const handleCreate = (newBookmark) => {
-  //   fetch(url+"/bookmark", {
-  //     method:"post",
-  //     headers: {
-  //       "Content-Type":"application/json",
-  //     },
-  //     body: JSON.stringify(newBookmark),
-  //   }).then(reponse=>{
-  //     getBookmark()
-  //   })
-  // }
+  const handleCreate = (newBookmark) => {
+    fetch(url+"/bookmark", {
+      method:"post",
+      headers: {
+        "Content-Type":"application/json",
+      },
+      body: JSON.stringify(newBookmark),
+    }).then(reponse=>{
+      getBookmark()
+    })
+  }
 
   return (
     <div className="App">
       <h1>Bookmark</h1>
-      {/* <Link >
+      <Link to="/create">
         <button>Add new bookmark</button>
-      </Link> */}
-      <Display bookmark={bookmark}/>
-      {/* <Switch>
-        <Route exact path="/" render={(rp)=><Display {...rp} bookmark={bookmark}/>}/>
-      </Switch> */}
+      </Link>
+    
+      {/* <Display bookmark={bookmark}/> */}
+      {/* <Form bookmark = {emptyBookmark}/> */}
+      <Switch>
+      <Route exact path="/" render={(rp)=><Display {...rp} bookmark={bookmark}/>}/>
+      <Route
+            exact
+            path="/create"
+            render={(rp) => (
+              <Form {...rp} label="create" bookmark={emptyBookmark} handleSubmit={handleCreate} />
+            )}
+          />
+      </Switch>
+      
     </div>
   );
 }

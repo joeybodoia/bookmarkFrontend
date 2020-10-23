@@ -51,9 +51,6 @@ function App() {
       <Link to="/create">
         <button>Add new bookmark</button>
       </Link>
-    
-      {/* <Display bookmark={bookmark}/> */}
-      {/* <Form bookmark = {emptyBookmark}/> */}
       <Switch>
       <Route exact path="/" render={(rp)=><Display {...rp} bookmark={bookmark}/>}/>
       <Route

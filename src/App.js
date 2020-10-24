@@ -17,6 +17,8 @@ function App() {
     title: "",
     url: ""
   }
+// state for selecting a bookmark to be edited
+  const [selectedBookmark, setSelectedBookmark] = React.useState(emptyBookmark)
 
   // API call
   const getBookmark = () =>{
@@ -45,6 +47,21 @@ function App() {
     })
   }
 
+  const handleUpdate = (bookmark) => {
+    fetch(url + "/bookmark/" + bookmark._id, {
+      method: "put",
+      headers: {
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(bookmark)
+    })
+    .then((response)=>getBookmark())
+  }
+
+  const selectBookmark = (bookmark) => {
+    setSelectedBookmark(bookmark)
+  }
+
 
   return (
     <div className="App">
@@ -53,7 +70,7 @@ function App() {
         <button>Add new bookmark</button>
       </Link>
       <Switch>
-      <Route exact path="/" render={(rp)=><Display {...rp} bookmark={bookmark}/>}/>
+      <Route exact path="/" render={(rp)=><Display {...rp} bookmark={bookmark} selectBookmark={selectBookmark}/>}/>
       <Route
             exact
             path="/create"
@@ -61,6 +78,13 @@ function App() {
               <Form {...rp} label="create" bookmark={emptyBookmark} handleSubmit={handleCreate} />
             )}
           />
+      <Route
+        exact
+        path="/edit"
+        render={(rp) => (
+          <Form {...rp} label="update" bookmark={selectedBookmark} handleSubmit={handleUpdate} />
+        )}
+      />
       </Switch>
       
     </div>
